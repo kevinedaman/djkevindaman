@@ -160,19 +160,16 @@ RETURNS TRIGGER
 SECURITY DEFINER
 AS $$
 BEGIN
-  INSERT INTO user_profiles (id, email)
+  INSERT INTO public.user_profiles (id, email)
   VALUES (NEW.id, NEW.email)
   ON CONFLICT (id) DO NOTHING;
   RETURN NEW;
 END;
 $$ language 'plpgsql';
 
--- Drop existing user profile trigger
-DROP TRIGGER IF EXISTS create_user_profile_on_signup ON auth.users;
-
 -- Create trigger to auto-create user profile on signup
 -- Note: This trigger is on the auth.users table from Supabase Auth
-CREATE TRIGGER create_user_profile_on_signup
+CREATE OR REPLACE TRIGGER create_user_profile_on_signup
   AFTER INSERT ON auth.users
   FOR EACH ROW
   EXECUTE FUNCTION create_user_profile();
