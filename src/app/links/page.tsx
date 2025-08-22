@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { ExternalLink, Music, CreditCard, Menu, X, Home, User, Headphones } from 'lucide-react';
+import { ExternalLink, Music, CreditCard, Menu, X, Home, User, Headphones, Phone } from 'lucide-react';
 import Link from 'next/link';
 import { BookNow } from '../../components/book-now';
 
@@ -121,8 +121,9 @@ export default function LinksPage() {
               <Link
                 href="/#contact"
                 onClick={toggleMenu}
-                className="text-gray-300 hover:text-purple-400 px-3 py-2 text-base font-medium transition-colors"
+                className="text-gray-300 hover:text-purple-400 px-3 py-2 text-base font-medium transition-colors flex items-center gap-2"
               >
+                <Phone className="h-4 w-4" />
                 Contact
               </Link>
             </div>
@@ -138,7 +139,8 @@ export default function LinksPage() {
           </div>
           <h1 className="text-4xl md:text-5xl font-bold text-white mb-6">
             Connect with
-            <span className="text-purple-400 drop-shadow-[0_0_10px_rgba(168,85,247,0.5)]"> DJ Kevin</span>
+            <br className="md:hidden" />
+            <span className="text-purple-400 drop-shadow-[0_0_10px_rgba(168,85,247,0.5)]"> DJ Kevin Daman</span>
           </h1>
           <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
             Find me across the web - from playlists and mixes to event updates and behind-the-scenes content

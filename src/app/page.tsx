@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Users, Building, Briefcase, Menu, X, Link as LinkIcon, User, Headphones } from 'lucide-react';
+import { Users, Building, Briefcase, Menu, X, Link as LinkIcon, User, Headphones, Phone } from 'lucide-react';
 import Link from 'next/link';
 import { BookNow } from '../components/book-now';
 
@@ -98,8 +98,9 @@ export default function DJWebsite() {
               <a
                 href="#contact"
                 onClick={toggleMenu}
-                className="text-gray-300 hover:text-purple-400 px-3 py-2 text-base font-medium transition-colors"
+                className="text-gray-300 hover:text-purple-400 px-3 py-2 text-base font-medium transition-colors flex items-center gap-2"
               >
+                <Phone className="h-4 w-4" />
                 Contact
               </a>
             </div>
@@ -125,12 +126,6 @@ export default function DJWebsite() {
                   className="bg-purple-500 text-white px-8 py-3 rounded-md text-lg font-medium hover:bg-purple-600 shadow-[0_0_20px_rgba(168,85,247,0.3)] hover:shadow-[0_0_30px_rgba(168,85,247,0.5)] transition-all"
                 >
                   Book Now
-                </a>
-                <a
-                  href="tel:+19528560353"
-                  className="border border-cyan-400 text-cyan-400 px-8 py-3 rounded-md text-lg font-medium hover:bg-cyan-400 hover:text-black transition-colors shadow-[0_0_10px_rgba(34,211,238,0.3)]"
-                >
-                  Call Now
                 </a>
               </div>
             </div>
@@ -217,7 +212,7 @@ export default function DJWebsite() {
       </section>
 
       {/* Contact Section */}
-      <section id="contact" className="py-20 bg-black">
+      <section id="contact" className="pb-16 bg-black">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <BookNow />
         </div>
