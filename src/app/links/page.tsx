@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { ExternalLink, Music, CreditCard, Menu, X, Home, User, Headphones } from 'lucide-react';
 import Link from 'next/link';
-import BookNow from '../../components/book-now';
+import { BookNow } from '../../components/book-now';
 
 export default function LinksPage() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
