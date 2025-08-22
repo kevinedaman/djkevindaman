@@ -41,7 +41,7 @@ export default function LinksPage() {
           <div className="flex justify-between items-center h-16">
             <div className="flex-shrink-0">
               <Link href="/" className="text-xl font-bold text-white hover:text-purple-400 transition-colors">
-                Your DJ Name
+                DJ Kevin Daman
               </Link>
             </div>
 
@@ -190,7 +190,7 @@ export default function LinksPage() {
       <footer className="bg-gray-950 text-white py-12 border-t border-gray-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
-            <p className="text-lg font-medium mb-2">Your DJ Name</p>
+            <p className="text-lg font-medium mb-2">DJ Kevin Daman</p>
             <p className="text-gray-400">Just here for the music</p>
             <div className="mt-6 flex justify-center space-x-6">
               <a href="tel:+19528560353" className="text-cyan-400 hover:text-cyan-300 transition-colors">
