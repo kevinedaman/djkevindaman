@@ -12,7 +12,16 @@ export default function AdminLogin() {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const router = useRouter();
-  const supabase = createClient();
+  
+  // Initialize Supabase client only when needed (not during build)
+  const getSupabaseClient = () => {
+    try {
+      return createClient();
+    } catch (error) {
+      console.error('Failed to initialize Supabase client:', error);
+      throw error;
+    }
+  };
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -20,6 +29,7 @@ export default function AdminLogin() {
     setError('');
 
     try {
+      const supabase = getSupabaseClient();
       const { data, error } = await supabase.auth.signInWithPassword({
         email,
         password,
