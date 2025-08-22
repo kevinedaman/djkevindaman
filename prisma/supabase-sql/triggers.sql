@@ -156,10 +156,12 @@ CREATE TRIGGER update_event_stats_on_song_request_change
 
 -- Function to automatically create user profile when user signs up
 CREATE OR REPLACE FUNCTION create_user_profile()
-RETURNS TRIGGER AS $$
+RETURNS TRIGGER 
+SECURITY DEFINER
+AS $$
 BEGIN
-  INSERT INTO user_profiles (id, email, created_at, updated_at)
-  VALUES (NEW.id, NEW.email, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
+  INSERT INTO user_profiles (id, email)
+  VALUES (NEW.id, NEW.email)
   ON CONFLICT (id) DO NOTHING;
   RETURN NEW;
 END;
