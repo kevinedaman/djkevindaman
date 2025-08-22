@@ -38,7 +38,7 @@ export interface SpotifyTrack {
   artists: string;
   album?: string;
   image?: string;
-  original?: any;
+  original?: unknown;
 }
 
 // Loading States
@@ -49,7 +49,7 @@ export enum LoadingState {
 }
 
 export interface ErrorState {
-  error: any;
+  error: unknown;
 }
 
 export type CallState = LoadingState | ErrorState;

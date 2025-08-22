@@ -1,6 +1,6 @@
 import { createClient } from './server';
 import { prisma } from '../prisma';
-import type { UserRole } from '../../generated/prisma';
+import type { UserRole } from '@prisma/client';
 
 export async function getUser() {
   const supabase = await createClient();

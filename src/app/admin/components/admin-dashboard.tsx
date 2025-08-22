@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 import { createClient } from '../../../lib/supabase/client';
 import { getAllPublicEvents } from '../../(main)/requests/actions/dj-events';
 import { markSongAsPlayed } from '../../(main)/requests/actions/song-requests';
@@ -28,12 +29,6 @@ export default function AdminDashboard() {
     refresh: refreshRequests,
   } = useSongRequests(selectedEvent?.id || null);
 
-  // Debug: Log the selected event to verify realtime setup
-  useEffect(() => {
-    if (selectedEvent) {
-      console.log(`Admin dashboard selected event changed to: ${selectedEvent.id} - ${selectedEvent.name}`);
-    }
-  }, [selectedEvent]);
 
   const loadEvents = useCallback(async () => {
     try {
@@ -285,9 +280,11 @@ export default function AdminDashboard() {
                             <div className="flex-1">
                               <div className="flex items-center gap-3">
                                 {request.track.imageUrl && (
-                                  <img
+                                  <Image
                                     src={request.track.imageUrl}
                                     alt={request.track.title}
+                                    width={48}
+                                    height={48}
                                     className="w-12 h-12 rounded"
                                   />
                                 )}

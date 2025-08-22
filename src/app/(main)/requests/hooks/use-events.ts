@@ -28,7 +28,6 @@ export function useActiveEvents() {
           table: 'dj_events',
         },
         (payload) => {
-          console.log('Active events INSERT:', payload);
           mutate(); // Trigger SWR revalidation
         },
       )
@@ -40,7 +39,6 @@ export function useActiveEvents() {
           table: 'dj_events',
         },
         (payload) => {
-          console.log('Active events UPDATE:', payload);
           mutate(); // Trigger SWR revalidation
         },
       )
@@ -52,13 +50,10 @@ export function useActiveEvents() {
           table: 'dj_events',
         },
         (payload) => {
-          console.log('Active events DELETE:', payload);
           mutate(); // Trigger SWR revalidation
         },
       )
-      .subscribe((status) => {
-        console.log('Active events subscription status:', status);
-      });
+      .subscribe();
 
     return () => {
       supabase.removeChannel(channel);
@@ -101,13 +96,10 @@ export function useEvent(eventId: number | null) {
           filter: `id=eq.${eventId}`,
         },
         (payload) => {
-          console.log(`Event ${eventId} UPDATE:`, payload);
           mutate(); // Trigger SWR revalidation
         },
       )
-      .subscribe((status) => {
-        console.log(`Event ${eventId} subscription status:`, status);
-      });
+      .subscribe();
 
     return () => {
       supabase.removeChannel(channel);
@@ -143,7 +135,6 @@ export function useAllEvents() {
           table: 'dj_events',
         },
         (payload) => {
-          console.log('All events INSERT:', payload);
           mutate(); // Trigger SWR revalidation
         },
       )
@@ -155,7 +146,6 @@ export function useAllEvents() {
           table: 'dj_events',
         },
         (payload) => {
-          console.log('All events UPDATE:', payload);
           mutate(); // Trigger SWR revalidation
         },
       )
@@ -167,13 +157,10 @@ export function useAllEvents() {
           table: 'dj_events',
         },
         (payload) => {
-          console.log('All events DELETE:', payload);
           mutate(); // Trigger SWR revalidation
         },
       )
-      .subscribe((status) => {
-        console.log('All events subscription status:', status);
-      });
+      .subscribe();
 
     return () => {
       supabase.removeChannel(channel);
@@ -209,7 +196,6 @@ export function useUpcomingEvents() {
           table: 'dj_events',
         },
         (payload) => {
-          console.log('Upcoming events INSERT:', payload);
           mutate(); // Trigger SWR revalidation
         },
       )
@@ -221,7 +207,6 @@ export function useUpcomingEvents() {
           table: 'dj_events',
         },
         (payload) => {
-          console.log('Upcoming events UPDATE:', payload);
           mutate(); // Trigger SWR revalidation
         },
       )
@@ -233,13 +218,10 @@ export function useUpcomingEvents() {
           table: 'dj_events',
         },
         (payload) => {
-          console.log('Upcoming events DELETE:', payload);
           mutate(); // Trigger SWR revalidation
         },
       )
-      .subscribe((status) => {
-        console.log('Upcoming events subscription status:', status);
-      });
+      .subscribe();
 
     return () => {
       supabase.removeChannel(channel);

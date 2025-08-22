@@ -105,25 +105,6 @@ export default function RequestsPage() {
                 Make a Request
               </Link>
               
-              {/* Debug: Test realtime by triggering a manual update */}
-              <button
-                onClick={async () => {
-                  console.log('Testing realtime by updating event...');
-                  try {
-                    const response = await fetch('/api/test-realtime', {
-                      method: 'POST',
-                      headers: { 'Content-Type': 'application/json' },
-                      body: JSON.stringify({ eventId: activeEvent.id })
-                    });
-                    console.log('Test update response:', await response.json());
-                  } catch (error) {
-                    console.error('Test update failed:', error);
-                  }
-                }}
-                className="block text-sm bg-yellow-600 hover:bg-yellow-700 text-white px-3 py-1 rounded transition-colors"
-              >
-                🧪 Test Realtime (Debug)
-              </button>
             </div>
           </div>
         ) : !isLoading ? (

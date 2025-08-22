@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
+import Image from 'next/image';
 import { searchSpotifyTracks } from '../actions';
 import type { SpotifyTrackInput } from '../actions';
 
@@ -126,14 +127,12 @@ export default function RequestModal({ onDismiss, onClose, isSubmitting = false 
                   }`}
                 >
                   <div className="w-12 h-12 mr-4 flex-shrink-0">
-                    <img
+                    <Image
                       src={track.imageUrl || 'https://via.placeholder.com/48x48?text=♪'}
                       alt={track.title}
+                      width={48}
+                      height={48}
                       className="w-full h-full object-cover rounded"
-                      onError={(e) => {
-                        const target = e.target as HTMLImageElement;
-                        target.src = 'https://via.placeholder.com/48x48?text=♪';
-                      }}
                     />
                   </div>
                   <div className="flex-grow min-w-0">

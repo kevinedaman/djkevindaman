@@ -24,8 +24,6 @@ export function useSongRequests(eventId: number | null) {
   useEffect(() => {
     if (!eventId) return;
 
-    console.log(`Setting up realtime subscription for song requests in event ${eventId}`);
-
     const channel = supabase
       .channel(`all-song-requests-${eventId}`)
       .on(
@@ -37,8 +35,6 @@ export function useSongRequests(eventId: number | null) {
           filter: `dj_event_id=eq.${eventId}`,
         },
         (payload) => {
-          console.log('Song requests INSERT:', payload);
-          console.log('Change type:', payload.eventType, 'Table:', payload.table);
           mutate(); // Trigger SWR revalidation
         },
       )
@@ -51,8 +47,6 @@ export function useSongRequests(eventId: number | null) {
           filter: `dj_event_id=eq.${eventId}`,
         },
         (payload) => {
-          console.log('Song requests UPDATE:', payload);
-          console.log('Change type:', payload.eventType, 'Table:', payload.table);
           mutate(); // Trigger SWR revalidation
         },
       )
@@ -65,17 +59,12 @@ export function useSongRequests(eventId: number | null) {
           filter: `dj_event_id=eq.${eventId}`,
         },
         (payload) => {
-          console.log('Received realtime update for song requests:', payload);
-          console.log('Change type:', payload.eventType, 'Table:', payload.table);
           mutate(); // Trigger SWR revalidation
         },
       )
-      .subscribe((status) => {
-        console.log(`Song requests subscription status for event ${eventId}:`, status);
-      });
+      .subscribe();
 
     return () => {
-      console.log(`Cleaning up realtime subscription for event ${eventId}`);
       supabase.removeChannel(channel);
     };
   }, [eventId, mutate, supabase]);
@@ -106,8 +95,6 @@ export function useActiveSongRequests(eventId: number | null) {
   useEffect(() => {
     if (!eventId) return;
 
-    console.log(`Setting up realtime subscription for active requests in event ${eventId}`);
-
     const channel = supabase
       .channel(`active-song-requests-${eventId}`)
       .on(
@@ -119,8 +106,6 @@ export function useActiveSongRequests(eventId: number | null) {
           filter: `dj_event_id=eq.${eventId}`,
         },
         (payload) => {
-          console.log('Song requests INSERT:', payload);
-          console.log('Change type:', payload.eventType, 'Table:', payload.table);
           mutate(); // Trigger SWR revalidation
         },
       )
@@ -133,8 +118,6 @@ export function useActiveSongRequests(eventId: number | null) {
           filter: `dj_event_id=eq.${eventId}`,
         },
         (payload) => {
-          console.log('Song requests UPDATE:', payload);
-          console.log('Change type:', payload.eventType, 'Table:', payload.table);
           mutate(); // Trigger SWR revalidation
         },
       )
@@ -147,17 +130,12 @@ export function useActiveSongRequests(eventId: number | null) {
           filter: `dj_event_id=eq.${eventId}`,
         },
         (payload) => {
-          console.log('Received realtime update for active requests:', payload);
-          console.log('Change type:', payload.eventType, 'Table:', payload.table);
           mutate(); // Trigger SWR revalidation
         },
       )
-      .subscribe((status) => {
-        console.log(`Active requests subscription status for event ${eventId}:`, status);
-      });
+      .subscribe();
 
     return () => {
-      console.log(`Cleaning up active requests realtime subscription for event ${eventId}`);
       supabase.removeChannel(channel);
     };
   }, [eventId, mutate, supabase]);
@@ -187,8 +165,6 @@ export function usePlayedSongRequests(eventId: number | null) {
   useEffect(() => {
     if (!eventId) return;
 
-    console.log(`Setting up realtime subscription for played requests in event ${eventId}`);
-
     const channel = supabase
       .channel(`played-song-requests-${eventId}`)
       .on(
@@ -200,8 +176,6 @@ export function usePlayedSongRequests(eventId: number | null) {
           filter: `dj_event_id=eq.${eventId}`,
         },
         (payload) => {
-          console.log('Song requests INSERT:', payload);
-          console.log('Change type:', payload.eventType, 'Table:', payload.table);
           mutate(); // Trigger SWR revalidation
         },
       )
@@ -214,8 +188,6 @@ export function usePlayedSongRequests(eventId: number | null) {
           filter: `dj_event_id=eq.${eventId}`,
         },
         (payload) => {
-          console.log('Song requests UPDATE:', payload);
-          console.log('Change type:', payload.eventType, 'Table:', payload.table);
           mutate(); // Trigger SWR revalidation
         },
       )
@@ -228,17 +200,12 @@ export function usePlayedSongRequests(eventId: number | null) {
           filter: `dj_event_id=eq.${eventId}`,
         },
         (payload) => {
-          console.log('Received realtime update for played requests:', payload);
-          console.log('Change type:', payload.eventType, 'Table:', payload.table);
           mutate(); // Trigger SWR revalidation
         },
       )
-      .subscribe((status) => {
-        console.log(`Played requests subscription status for event ${eventId}:`, status);
-      });
+      .subscribe();
 
     return () => {
-      console.log(`Cleaning up played requests realtime subscription for event ${eventId}`);
       supabase.removeChannel(channel);
     };
   }, [eventId, mutate, supabase]);
@@ -280,8 +247,6 @@ export function useSongRequestStats(eventId: number | null) {
           filter: `dj_event_id=eq.${eventId}`,
         },
         (payload) => {
-          console.log('Song requests INSERT:', payload);
-          console.log('Change type:', payload.eventType, 'Table:', payload.table);
           mutate(); // Trigger SWR revalidation
         },
       )
@@ -294,8 +259,6 @@ export function useSongRequestStats(eventId: number | null) {
           filter: `dj_event_id=eq.${eventId}`,
         },
         (payload) => {
-          console.log('Song requests UPDATE:', payload);
-          console.log('Change type:', payload.eventType, 'Table:', payload.table);
           mutate(); // Trigger SWR revalidation
         },
       )

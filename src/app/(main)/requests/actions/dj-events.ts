@@ -3,7 +3,7 @@
 import { prisma } from '../../../../lib/prisma';
 import { isAfter, isBefore, subHours } from 'date-fns';
 import { revalidatePath } from 'next/cache';
-import type { Prisma } from '../../../../generated/prisma';
+import type { Prisma } from '@prisma/client';
 
 // Use Prisma-generated types
 export type DjEventWithStats = Prisma.DjEventGetPayload<{

@@ -1,16 +1,17 @@
 'use client';
 
-import { SongRequest } from '../../../types';
+import Image from 'next/image';
+import { SongRequestWithTrack } from '../actions';
 
 interface SongRequestListItemProps {
-  request: SongRequest;
+  request: SongRequestWithTrack;
 }
 
 export default function SongRequestListItem({ request }: SongRequestListItemProps) {
   return (
-    <div className={`relative bg-gray-900 border border-gray-700 rounded-lg p-4 ${request.played ? 'opacity-60' : ''}`}>
+    <div className={`relative bg-gray-900 border border-gray-700 rounded-lg p-4 ${request.isPlayed ? 'opacity-60' : ''}`}>
       {/* Played overlay */}
-      {request.played && (
+      {request.isPlayed && (
         <div className="absolute top-2 right-2">
           <span className="bg-green-600 text-white text-xs px-2 py-1 rounded-full font-semibold">✓ PLAYED</span>
         </div>
@@ -20,7 +21,13 @@ export default function SongRequestListItem({ request }: SongRequestListItemProp
         {/* Song Info */}
         <div className="flex items-center flex-grow min-w-0">
           <div className="w-16 h-16 mr-4 flex-shrink-0">
-            <img src={request.track.image} alt={request.track.title} className="w-full h-full object-cover rounded" />
+            <Image 
+              src={request.track.imageUrl || ''} 
+              alt={request.track.title} 
+              width={64}
+              height={64}
+              className="w-full h-full object-cover rounded" 
+            />
           </div>
           <div className="min-w-0 flex-grow">
             <h3 className="text-white font-medium truncate">{request.track.title}</h3>
@@ -34,12 +41,12 @@ export default function SongRequestListItem({ request }: SongRequestListItemProp
       <div className="mt-3 flex justify-between items-center text-xs text-gray-500">
         <span>
           Requested{' '}
-          {new Date(request.createdDate).toLocaleTimeString([], {
+          {new Date(request.requestedAt).toLocaleTimeString([], {
             hour: '2-digit',
             minute: '2-digit',
           })}
         </span>
-        {request.requestedById && <span className="text-gray-400">By: {request.requestedById}</span>}
+        {request.requestedBy && <span className="text-gray-400">By: {request.requestedBy}</span>}
       </div>
     </div>
   );

@@ -218,22 +218,7 @@ export default function EventRequestsPage() {
               {activeRequests.map((request) => (
                 <SongRequestListItem
                   key={request.id}
-                  request={{
-                    id: request.id,
-                    track: {
-                      id: request.track.id,
-                      spotifyId: request.track.spotifyId,
-                      title: request.track.title,
-                      artists: request.track.artists,
-                      album: request.track.album || '',
-                      image: request.track.imageUrl ?? '',
-                    },
-                    trackId: request.trackId,
-                    requestedById: request.requestedBy || undefined,
-                    djEventId: request.djEventId,
-                    createdDate: request.requestedAt.toISOString(),
-                    played: request.isPlayed,
-                  }}
+                  request={request}
                 />
               ))}
             </div>
@@ -248,22 +233,7 @@ export default function EventRequestsPage() {
               {playedRequests.map((request) => (
                 <SongRequestListItem
                   key={request.id}
-                  request={{
-                    id: request.id,
-                    track: {
-                      id: request.track.id,
-                      spotifyId: request.track.spotifyId,
-                      title: request.track.title,
-                      artists: request.track.artists,
-                      album: request.track.album || '',
-                      image: request.track.imageUrl ?? '',
-                    },
-                    trackId: request.trackId,
-                    requestedById: request.requestedBy || undefined,
-                    djEventId: request.djEventId,
-                    createdDate: request.requestedAt.toISOString(),
-                    played: request.isPlayed,
-                  }}
+                  request={request}
                 />
               ))}
             </div>

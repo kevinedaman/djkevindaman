@@ -138,7 +138,7 @@ export default function AddEventModal({ isOpen, onClose, onEventAdded, copyFromE
               >
                 <Copy className="h-5 w-5" />
                 <div className="text-left">
-                  <div className="font-medium">Copy from "{copyFromEvent.name}"</div>
+                  <div className="font-medium">Copy from &quot;{copyFromEvent.name}&quot;</div>
                   <div className="text-sm opacity-90">Use existing event as template</div>
                 </div>
               </button>

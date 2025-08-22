@@ -1,7 +1,7 @@
 'use server';
 
 import { prisma } from '../../../../lib/prisma';
-import type { Prisma, Track } from '../../../../generated/prisma';
+import type { Prisma, Track } from '@prisma/client';
 
 // Use Prisma-generated types
 export type TrackData = Track;
