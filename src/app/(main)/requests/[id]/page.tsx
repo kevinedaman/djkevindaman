@@ -1,7 +1,5 @@
 'use client';
 
-export const runtime = 'edge';
-
 import { useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { Instagram, CreditCard } from 'lucide-react';
@@ -218,10 +216,7 @@ export default function EventRequestsPage() {
             <h2 className="text-2xl font-bold mb-4">Requested Songs</h2>
             <div className="space-y-2">
               {activeRequests.map((request) => (
-                <SongRequestListItem
-                  key={request.id}
-                  request={request}
-                />
+                <SongRequestListItem key={request.id} request={request} />
               ))}
             </div>
           </div>
@@ -233,10 +228,7 @@ export default function EventRequestsPage() {
             <h2 className="text-2xl font-bold mb-4">Played Songs</h2>
             <div className="space-y-2">
               {playedRequests.map((request) => (
-                <SongRequestListItem
-                  key={request.id}
-                  request={request}
-                />
+                <SongRequestListItem key={request.id} request={request} />
               ))}
             </div>
           </div>

@@ -4,7 +4,6 @@ import { redirect } from 'next/navigation';
 import AdminDashboard from './components/admin-dashboard';
 
 export const dynamic = 'force-dynamic';
-export const runtime = 'edge';
 
 export default async function AdminPage() {
   const userIsAdmin = await isAdmin();
