@@ -5,16 +5,4 @@ compatibility_flags = ["nodejs_compat"]
 [env.production]
 name = "dj-kevin-daman"
 
-[env.production.vars]
-# Public variables - these are safe to include as they're public anyway
-# Your production Supabase URL and anon key (these are meant to be public)
-NEXT_PUBLIC_SUPABASE_URL = "https://your-project.supabase.co"
-NEXT_PUBLIC_SUPABASE_ANON_KEY = "your-anon-key"
-
-# Private variables should be set using wrangler secrets:
-# wrangler pages secret put DATABASE_URL --project-name=dj-kevin-daman
-# wrangler pages secret put DIRECT_URL --project-name=dj-kevin-daman
-# wrangler pages secret put SPOTIFY_CLIENT_ID --project-name=dj-kevin-daman
-# wrangler pages secret put SPOTIFY_CLIENT_SECRET --project-name=dj-kevin-daman
-
 pages_build_output_dir = ".vercel/output/static"
