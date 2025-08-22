@@ -147,7 +147,8 @@ export default function DJWebsite() {
             </p>
             <p className="text-xl mb-6">
               I built my foundation DJing at bars and nightclubs 4-5 nights per week. I expanded into weddings in 2012,
-              and currently DJ at various Twin Cities venues while doing the occasional wedding.
+              and currently DJ at various Twin Cities venues, weddings, and private events. I provide a customizable
+              music and light experience for your event no matter the size.
             </p>
             <p className="text-xl">
               My musical training, technical proficiency, and thousands of hours behind the decks means I can read any
