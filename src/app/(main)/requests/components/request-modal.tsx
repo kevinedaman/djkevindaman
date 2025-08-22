@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { searchSpotifyTracks } from '../actions';
 import type { SpotifyTrackInput } from '../actions';
 
@@ -16,13 +16,31 @@ export default function RequestModal({ onDismiss, onClose, isSubmitting = false 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  const debouncedSearch = useCallback(() => {
+    const timeoutId = setTimeout(() => {
+      if (searchQuery.trim().length > 2) {
+        searchTracks(searchQuery);
+      } else {
+        setSearchResults([]);
+        setLoading(false);
+      }
+    }, 500);
+
+    return () => clearTimeout(timeoutId);
+  }, [searchQuery]);
+
   useEffect(() => {
     if (searchQuery.trim().length > 2) {
-      searchTracks(searchQuery);
+      setLoading(true);
+      setError(null);
     } else {
       setSearchResults([]);
+      setLoading(false);
     }
-  }, [searchQuery]);
+    
+    const cleanup = debouncedSearch();
+    return cleanup;
+  }, [debouncedSearch, searchQuery]);
 
   const searchTracks = async (query: string) => {
     setLoading(true);

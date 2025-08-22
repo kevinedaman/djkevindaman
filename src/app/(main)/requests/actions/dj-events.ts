@@ -60,12 +60,20 @@ export async function getActiveEvents(): Promise<ActiveEventInfo[]> {
     const events = await prisma.djEvent.findMany({
       where: {
         isPublic: true,
-        startDate: {
-          gte: subHours(now, 1), // Events that started at most 1 hour ago
-        },
-        endDate: {
-          gte: now, // Events that haven't ended yet
-        },
+        AND: [
+          {
+            // Request window opens 1 hour before start
+            startDate: {
+              lte: new Date(now.getTime() + 60 * 60 * 1000), // now + 1 hour
+            },
+          },
+          {
+            // Request window closes when event ends
+            endDate: {
+              gte: now,
+            },
+          },
+        ],
       },
       include: {
         _count: {

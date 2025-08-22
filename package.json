@@ -5,7 +5,6 @@
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build --turbopack",
-    "export": "next build && next export",
     "start": "next start",
     "lint": "eslint",
     "db:generate": "prisma generate",
@@ -13,7 +12,11 @@
     "db:migrate": "prisma migrate dev",
     "db:reset": "prisma migrate reset",
     "db:studio": "prisma studio",
-    "db:seed": "tsx prisma/seed.ts"
+    "db:seed": "tsx prisma/seed.ts",
+    "migrate:triggers": "prisma db execute --file ./prisma/supabase-sql/triggers.sql --schema ./prisma/schema.prisma",
+    "migrate:policies": "prisma db execute --file ./prisma/supabase-sql/rls-policies.sql --schema ./prisma/schema.prisma",
+    "migrate:realtime": "prisma db execute --file ./prisma/supabase-sql/realtime-publications.sql --schema ./prisma/schema.prisma",
+    "deploy:db": "prisma migrate deploy && npm run migrate:triggers && npm run migrate:policies && npm run migrate:realtime && prisma generate"
   },
   "dependencies": {
     "@prisma/client": "^6.14.0",

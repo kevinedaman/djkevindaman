@@ -96,13 +96,35 @@ export default function RequestsPage() {
               {activeEvent.venueName && <p className="text-sm mt-1">📍 {activeEvent.venueName}</p>}
             </div>
 
-            <Link
-              href={`/requests/${activeEvent.id}`}
-              className="inline-flex items-center bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 px-6 rounded-lg transition-colors"
-            >
-              <span className="mr-2">🎤</span>
-              Make a Request
-            </Link>
+            <div className="space-y-4">
+              <Link
+                href={`/requests/${activeEvent.id}`}
+                className="inline-flex items-center bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 px-6 rounded-lg transition-colors"
+              >
+                <span className="mr-2">🎤</span>
+                Make a Request
+              </Link>
+              
+              {/* Debug: Test realtime by triggering a manual update */}
+              <button
+                onClick={async () => {
+                  console.log('Testing realtime by updating event...');
+                  try {
+                    const response = await fetch('/api/test-realtime', {
+                      method: 'POST',
+                      headers: { 'Content-Type': 'application/json' },
+                      body: JSON.stringify({ eventId: activeEvent.id })
+                    });
+                    console.log('Test update response:', await response.json());
+                  } catch (error) {
+                    console.error('Test update failed:', error);
+                  }
+                }}
+                className="block text-sm bg-yellow-600 hover:bg-yellow-700 text-white px-3 py-1 rounded transition-colors"
+              >
+                🧪 Test Realtime (Debug)
+              </button>
+            </div>
           </div>
         ) : !isLoading ? (
           <div className="text-center py-16">

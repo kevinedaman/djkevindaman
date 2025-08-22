@@ -1,20 +1,19 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { createClient } from '../../../lib/supabase/client';
 import { getAllPublicEvents } from '../../(main)/requests/actions/dj-events';
-import { getSongRequestsForEvent, markSongAsPlayed } from '../../(main)/requests/actions/song-requests';
+import { markSongAsPlayed } from '../../(main)/requests/actions/song-requests';
+import { useSongRequests } from '../../(main)/requests/hooks/use-song-requests';
 import { Calendar, LogOut, Plus, Music, CheckCircle, Clock, Copy, Settings, Edit, ExternalLink } from 'lucide-react';
 import type { DjEventWithStats } from '../../(main)/requests/actions/dj-events';
-import type { SongRequestWithTrack } from '../../(main)/requests/actions/song-requests';
 import AddEventModal from './add-event-modal';
 import EditEventModal from './edit-event-modal';
 
 export default function AdminDashboard() {
   const [events, setEvents] = useState<DjEventWithStats[]>([]);
   const [selectedEvent, setSelectedEvent] = useState<DjEventWithStats | null>(null);
-  const [songRequests, setSongRequests] = useState<SongRequestWithTrack[]>([]);
   const [loading, setLoading] = useState(true);
   const [showAddEventModal, setShowAddEventModal] = useState(false);
   const [showEditEventModal, setShowEditEventModal] = useState(false);
@@ -22,17 +21,21 @@ export default function AdminDashboard() {
   const router = useRouter();
   const supabase = createClient();
 
-  useEffect(() => {
-    loadEvents();
-  }, [refreshKey]);
+  // Use the realtime hook for song requests
+  const {
+    requests: songRequests,
+    isLoading: requestsLoading,
+    refresh: refreshRequests,
+  } = useSongRequests(selectedEvent?.id || null);
 
+  // Debug: Log the selected event to verify realtime setup
   useEffect(() => {
     if (selectedEvent) {
-      loadSongRequests(selectedEvent.id);
+      console.log(`Admin dashboard selected event changed to: ${selectedEvent.id} - ${selectedEvent.name}`);
     }
-  }, [selectedEvent, refreshKey]);
+  }, [selectedEvent]);
 
-  const loadEvents = async () => {
+  const loadEvents = useCallback(async () => {
     try {
       const eventsData = await getAllPublicEvents();
       setEvents(eventsData);
@@ -44,25 +47,17 @@ export default function AdminDashboard() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [selectedEvent]);
 
-  const loadSongRequests = async (eventId: number) => {
-    try {
-      const requests = await getSongRequestsForEvent(eventId);
-      setSongRequests(requests);
-    } catch (error) {
-      console.error('Error loading song requests:', error);
-    }
-  };
+  useEffect(() => {
+    loadEvents();
+  }, [refreshKey, loadEvents]);
 
   const handleMarkAsPlayed = async (requestId: number) => {
     try {
       await markSongAsPlayed(requestId);
-      // Refresh the song requests
-      if (selectedEvent) {
-        await loadSongRequests(selectedEvent.id);
-      }
-      setRefreshKey((prev) => prev + 1);
+      // The realtime hook will automatically update the data
+      refreshRequests();
     } catch (error) {
       console.error('Error marking song as played:', error);
     }
@@ -87,7 +82,7 @@ export default function AdminDashboard() {
   const activeRequests = songRequests.filter((request) => !request.isPlayed);
   const playedRequests = songRequests.filter((request) => request.isPlayed);
 
-  if (loading) {
+  if (loading || requestsLoading) {
     return (
       <div className="flex items-center justify-center min-h-screen bg-black text-white">
         <div className="text-center">
