@@ -1,5 +1,5 @@
 import { Users, Building, Briefcase } from 'lucide-react';
-import { BookNow } from './(main)/components/book-now';
+import { BookNow } from './components/book-now';
 
 export default function DJWebsite() {
   return (

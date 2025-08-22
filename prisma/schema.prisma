@@ -1,0 +1,183 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// User roles enum
+enum UserRole {
+  user
+  admin
+}
+
+// User Profiles - stores user information and roles (linked to Supabase auth.users via UUID)
+model UserProfile {
+  id          String   @id @db.Uuid // UUID that matches Supabase auth.users.id
+  email       String?  @unique
+  firstName   String?  @map("first_name")
+  lastName    String?  @map("last_name")
+  role        UserRole @default(user)
+  
+  // Metadata
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @default(now()) @updatedAt @map("updated_at")
+  
+  @@map("user_profiles")
+  @@index([email])
+  @@index([role])
+}
+
+// DJ Events - represents performances/shows where requests can be made
+model DjEvent {
+  id          Int      @id @default(autoincrement())
+  name        String
+  description String?
+  startDate   DateTime @map("start_date")
+  endDate     DateTime @map("end_date")
+  
+  // Location information
+  venueName   String?  @map("venue_name")
+  venueAddress String? @map("venue_address")
+  
+  // Event status
+  isActive    Boolean  @default(false) @map("is_active")
+  isPublic    Boolean  @default(true)  @map("is_public")
+  
+  // Metadata
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @default(now()) @updatedAt @map("updated_at")
+  
+  // Relations
+  songRequests SongRequest[]
+  requestQueue RequestQueue[]
+  eventStats   EventStats?
+  
+  @@map("dj_events")
+  @@index([startDate, endDate])
+  @@index([isActive, isPublic])
+}
+
+// Tracks - represents songs that can be requested
+model Track {
+  id              Int    @id @default(autoincrement())
+  spotifyId       String @unique @map("spotify_id")
+  title           String
+  artists         String
+  album           String?
+  imageUrl        String? @map("image_url")
+  durationMs      Int?    @map("duration_ms")
+  previewUrl      String? @map("preview_url")
+  spotifyUrl      String? @map("spotify_url")
+  
+  // Spotify raw data for future use
+  rawSpotifyData  Json?   @map("raw_spotify_data")
+  
+  // Metadata
+  createdAt       DateTime @default(now()) @map("created_at")
+  updatedAt       DateTime @updatedAt @map("updated_at")
+  
+  // Relations
+  songRequests           SongRequest[]
+  mostRequestedInEvents  EventStats[]
+  
+  @@map("tracks")
+  @@index([spotifyId])
+  @@index([title, artists])
+}
+
+// Song Requests - represents requests made by users for specific events
+model SongRequest {
+  id            Int      @id @default(autoincrement())
+  
+  // Foreign Keys
+  djEventId     Int      @map("dj_event_id")
+  trackId       Int      @map("track_id")
+  
+  // Request details
+  requestedBy   String?  @map("requested_by") // Can be anonymous
+  requestedAt   DateTime @default(now()) @map("requested_at")
+  
+  // Status
+  isPlayed      Boolean  @default(false) @map("is_played")
+  playedAt      DateTime? @map("played_at")
+  
+  // Additional notes from requester or DJ
+  notes         String?
+  djNotes       String?  @map("dj_notes")
+  
+  // Priority (for DJ to organize queue)
+  priority      Int      @default(0)
+  
+  // Metadata
+  createdAt     DateTime @default(now()) @map("created_at")
+  updatedAt     DateTime @updatedAt @map("updated_at")
+  
+  // Relations
+  djEvent       DjEvent       @relation(fields: [djEventId], references: [id], onDelete: Cascade)
+  track         Track         @relation(fields: [trackId], references: [id], onDelete: Cascade)
+  queueEntry    RequestQueue?
+  
+  @@map("song_requests")
+  @@index([djEventId, isPlayed])
+  @@index([requestedAt])
+  @@index([priority, requestedAt])
+  @@unique([djEventId, trackId]) // Prevent duplicate requests for same song in same event
+}
+
+// Request Queue - optional table for managing the play order
+model RequestQueue {
+  id            Int      @id @default(autoincrement())
+  djEventId     Int      @map("dj_event_id")
+  songRequestId Int      @unique @map("song_request_id")
+  queuePosition Int      @map("queue_position")
+  
+  // Metadata
+  createdAt     DateTime @default(now()) @map("created_at")
+  updatedAt     DateTime @updatedAt @map("updated_at")
+  
+  // Relations
+  djEvent       DjEvent     @relation(fields: [djEventId], references: [id], onDelete: Cascade)
+  songRequest   SongRequest @relation(fields: [songRequestId], references: [id], onDelete: Cascade)
+  
+  @@map("request_queue")
+  @@unique([djEventId, queuePosition])
+  @@index([djEventId, queuePosition])
+}
+
+// Event Statistics - for analytics and insights
+model EventStats {
+  id                  Int      @id @default(autoincrement())
+  djEventId           Int      @unique @map("dj_event_id")
+  
+  // Request statistics
+  totalRequests       Int      @default(0) @map("total_requests")
+  totalUniqueRequesters Int    @default(0) @map("total_unique_requesters")
+  totalSongsPlayed    Int      @default(0) @map("total_songs_played")
+  
+  // Popular tracks
+  mostRequestedTrackId Int?    @map("most_requested_track_id")
+  
+  // Timing
+  firstRequestAt      DateTime? @map("first_request_at")
+  lastRequestAt       DateTime?  @map("last_request_at")
+  
+  // Metadata
+  createdAt           DateTime @default(now()) @map("created_at")
+  updatedAt           DateTime @updatedAt @map("updated_at")
+  
+  // Relations
+  djEvent             DjEvent @relation(fields: [djEventId], references: [id], onDelete: Cascade)
+  mostRequestedTrack  Track?  @relation(fields: [mostRequestedTrackId], references: [id])
+  
+  @@map("event_stats")
+}

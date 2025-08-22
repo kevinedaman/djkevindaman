@@ -1,0 +1,16 @@
+# Database Configuration
+DATABASE_URL="postgresql://username:password@localhost:5432/dj_kevin_daman?schema=public"
+
+# Spotify API Configuration
+# Get these from https://developer.spotify.com/dashboard/
+SPOTIFY_CLIENT_ID=your_spotify_client_id_here
+SPOTIFY_CLIENT_SECRET=your_spotify_client_secret_here
+
+# Next.js Configuration
+NEXTAUTH_URL=http://localhost:3000
+NEXTAUTH_SECRET=your_nextauth_secret_here
+
+# Supabase Configuration
+NEXT_PUBLIC_SUPABASE_URL=http://127.0.0.1:54321
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key_here
+SUPABASE_SERVICE_ROLE_KEY=your_supabase_service_role_key_here
