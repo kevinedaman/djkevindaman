@@ -16,6 +16,9 @@ export const metadata: Metadata = {
   title: 'DJ Kevin Daman - Twin Cities DJ',
   description:
     'Professional DJ services for weddings, nightclubs, and private events in the Twin Cities. Just here for the music.',
+  icons: {
+    icon: '/favicon.svg',
+  },
 };
 
 export default function RootLayout({
